@@ -8,39 +8,39 @@ namespace AsteroidFieldGenerator.Models
     {
         public enum Type
         {
-            Common = 1,
-            Rare = 2
+            Common,
+            Rare
         }
 
         public enum CommonResource
         {
-            RT_IronOre = 1,
-            RT_CopperOre = 2,
-            RT_Water = 3,
-            RT_SiliconOre = 4,
-            RT_ZincOre = 5,
-            RT_Nitrogen = 6,
-            RT_Carbon = 18
+            RT_IronOre,
+            RT_CopperOre,
+            RT_Water,
+            RT_SiliconOre,
+            RT_ZincOre,
+            RT_Nitrogen,
+            RT_Carbon
         }
         public enum RareResource
         {
-            RT_TungstenOre = 93,
-            RT_UraniumOre = 57,
-            RT_AluminiumOre = 59,
-            RT_LithiumOre = 99,
-            RT_LeadOre = 56,
+            RT_TungstenOre,
+            RT_UraniumOre,
+            RT_AluminiumOre,
+            RT_LithiumOre,
+            RT_LeadOre,
 
-            RT_Gold = 24,
-            RT_Silver = 27,
-            RT_Osmium = 25,
-            RT_Iridium = 26,
-            RT_Mercury = 28,
-            RT_Platinum = 29,
-            RT_Fluorite = 61,
-            RT_Beryllium = 41,
-            RT_Quartz = 77,
-            RT_Manganese = 101,
-            RT_Titanium = 102
+            RT_Gold,
+            RT_Silver,
+            RT_Osmium,
+            RT_Iridium,
+            RT_Mercury,
+            RT_Platinum,
+            RT_Fluorite,
+            RT_Beryllium,
+            RT_Quartz,
+            RT_Manganese,
+            RT_Titanium
         }
     }
 }

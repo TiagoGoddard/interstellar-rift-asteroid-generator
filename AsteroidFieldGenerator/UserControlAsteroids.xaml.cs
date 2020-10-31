@@ -18,9 +18,12 @@ namespace AsteroidFieldGenerator
     /// </summary>
     public partial class UserControlAsteroids : UserControl
     {
+        MainViewModel mainViewModel = MainViewModel.GetInstance();
+
         public UserControlAsteroids()
         {
             InitializeComponent();
+            DataContext = mainViewModel;
         }
     }
 }

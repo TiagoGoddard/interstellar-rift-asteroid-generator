@@ -20,36 +20,22 @@
                 <TextBlock Text="Asteroid Field Generator" Margin="20,5,0,0" FontSize="25" VerticalAlignment="Center" FontFamily="Hall Fetica"/>
             </StackPanel>
         </materialDesign:ColorZone>
-        <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{x:Static materialDesign:Transitioner.MoveNextCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" Margin="20">
+        <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{x:Static materialDesign:Transitioner.MoveNextCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" Margin="20" Cursor="Hand">
             <materialDesign:PackIcon Kind="Add" />
         </Button>
-        <ListView Grid.Row="2" Margin="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Name="ListViewAsteroids" ItemsSource="{Binding Path=asteroidField.asteroids, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-            <ListViewItem Opacity="1" >
-                <Grid>
-                    <StackPanel>
-                        <TextBlock FontSize="30">
-                            05:01
-                        </TextBlock>
-                        <TextBlock FontSize="30" Opacity="0.3">
-                            Off
-                        </TextBlock>
-                    </StackPanel>
-                    <ToggleButton HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" />
-                </Grid>
-            </ListViewItem>
-            <ListViewItem Opacity="1">
-                <Grid>
-                    <StackPanel>
-                        <TextBlock FontSize="30">
-                            05:01
-                        </TextBlock>
-                        <TextBlock FontSize="30" Opacity="0.3">
-                            Sun | Alarm in 7 hours 48 minutes
-                        </TextBlock>
-                    </StackPanel>
-                    <ToggleButton IsChecked="True"  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" />
-                </Grid>
-            </ListViewItem>
+        <ListView Grid.Row="2" Margin="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Name="ListViewAsteroids" 
+                  ItemsSource="{Binding Path=Asteroids}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock FontSize="30" Text="Teste" />
+                            <TextBlock FontSize="30" Text="{Binding chance}" />
+                        </StackPanel>
+                        <ToggleButton HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </UserControl>

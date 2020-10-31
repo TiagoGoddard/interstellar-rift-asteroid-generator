@@ -16,4 +16,8 @@
 	  <Resource Include="Resources\EditorLogo32.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controller\" />
+  </ItemGroup>
+
 </Project>

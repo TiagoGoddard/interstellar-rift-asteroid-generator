@@ -23,7 +23,21 @@
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
-    MouseDown="Window_MouseDown" Icon="/Resources/EditorLogo32.ico">
+    Icon="/Resources/EditorLogo32.ico"
+    
+    MouseDown="Window_MouseDown"
+    Closing="Window_Closing">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:MainWindow.MenuItemSelected}" CommandParameter="Save" Key="S" Modifiers="Control" />
+        <KeyBinding Command="{x:Static local:MainWindow.MenuItemSelected}" CommandParameter="New" Key="N" Modifiers="Control" />
+        <KeyBinding Command="{x:Static local:MainWindow.MenuItemSelected}" CommandParameter="Open" Key="O" Modifiers="Control"  />
+        <KeyBinding Command="{x:Static local:MainWindow.MenuItemSelected}" CommandParameter="Save As..." Key="S" Modifiers="Control+Shift" />
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.MenuItemSelected}" Executed="CommandBinding_OnExecuted" />
+    </Window.CommandBindings>
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -43,7 +57,6 @@
                         </Setter.Value>
                     </Setter>
                     <Setter Property="Padding" Value="0" />
-                    <!--<Setter Property="Width" Value="80" />-->
                 </Trigger>
                 <Trigger Property="Role" Value="SubmenuItem">
                     <Setter Property="Command" Value="{x:Static local:MainWindow.MenuItemSelected}" />
@@ -52,6 +65,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -96,13 +110,16 @@
                         <materialDesign:PackIcon Kind="ContentSaveMove" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" InputGestureText="Alt+F4">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ExitRun" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
-        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="SelectedMenuTextBlock"
-                FontSize="25" Visibility="{Binding isDebugMode, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}"/>
-
-        <materialDesign:Transitioner Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedIndex="0" AutoApplyTransitionOrigins="True">
+        <materialDesign:Transitioner Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedIndex="0" AutoApplyTransitionOrigins="True" Name="WindowTransitioner">
 
             <Grid>
                 <local:UserControlAsteroids />

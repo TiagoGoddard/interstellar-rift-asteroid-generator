@@ -5,17 +5,15 @@ using System.Collections;
 
 namespace AsteroidFieldGenerator.Models
 {
-    class AsteroidResource<T> where T : Resource
+    class AsteroidResource
     {
-        public Resource resource { get; set; }
         public int minAmount { get; set; }
         public int maxAmount { get; set; }
 
-        public AsteroidResource(T resource, int minAmount, int maxAmount)
+        public AsteroidResource(int minAmount, int maxAmount)
         {
-            this.resource = resource;
             this.minAmount = minAmount;
-            this.maxAmount = maxAmount;
+            this.maxAmount = maxAmount; 
         }
     }
 

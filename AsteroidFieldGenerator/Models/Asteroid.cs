@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsteroidFieldGenerator.Utility;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,13 +9,18 @@ namespace AsteroidFieldGenerator.Models
     {
         public double chance { get; set; }
 
-        List<AsteroidResource<CommonResource>> minMaxResources { get; set; }
-        List<AsteroidResource<RareResource>> minMaxRareResources { get; set; }
+        public Dictionary<string, AsteroidResource> minMaxResources { get; set; }
+        public Dictionary<string, AsteroidResource> minMaxRareResources { get; set; }
 
         public Asteroid()
         {
-            minMaxResources = new List<AsteroidResource<CommonResource>>();
-            minMaxRareResources = new List<AsteroidResource<RareResource>>();
+            this.minMaxResources = new Dictionary<string, AsteroidResource>();
+            this.minMaxRareResources = new Dictionary<string, AsteroidResource>();
+        }
+        public Asteroid(Dictionary<string, AsteroidResource> minMaxResources, Dictionary<string, AsteroidResource> minMaxRareResources)
+        {
+            this.minMaxResources = minMaxResources;
+            this.minMaxRareResources = minMaxRareResources;
         }
     }
 }
