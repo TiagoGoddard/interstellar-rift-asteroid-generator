@@ -120,9 +120,8 @@
         </Menu>
 
         <materialDesign:Transitioner Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedIndex="0" AutoApplyTransitionOrigins="True" Name="WindowTransitioner">
-
             <Grid>
-                <local:UserControlAsteroids />
+                <local:UserControlAsteroids x:Name="UserControlAsteriods" />
             </Grid>
             <materialDesign:TransitionerSlide>
                 <materialDesign:TransitionerSlide.BackwardWipe>
@@ -132,7 +131,7 @@
                 <materialDesign:TransitionerSlide.ForwardWipe>
                     <materialDesign:SlideWipe Direction="Right"/>
                 </materialDesign:TransitionerSlide.ForwardWipe>
-                <local:UserControlAddAsteroid />
+                <local:UserControlAddAsteroid x:Name="UserControlAddAsteriod" />
 
             </materialDesign:TransitionerSlide>
         </materialDesign:Transitioner>

@@ -10,6 +10,12 @@ namespace AsteroidFieldGenerator.Models
         public int minAmount { get; set; }
         public int maxAmount { get; set; }
 
+        public AsteroidResource()
+        {
+            minAmount = 0;
+            maxAmount = 1;
+        }
+
         public AsteroidResource(int minAmount, int maxAmount)
         {
             this.minAmount = minAmount;

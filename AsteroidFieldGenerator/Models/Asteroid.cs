@@ -7,7 +7,7 @@ namespace AsteroidFieldGenerator.Models
 {
     class Asteroid
     {
-        public double chance { get; set; }
+        public decimal chance { get; set; }
 
         public Dictionary<string, AsteroidResource> minMaxResources { get; set; }
         public Dictionary<string, AsteroidResource> minMaxRareResources { get; set; }

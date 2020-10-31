@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AsteroidFieldGenerator"
+             xmlns:utility="clr-namespace:AsteroidFieldGenerator.Utility"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <utility:CommonResourceEnumConverter  x:Key="commonEnumConverter" />
+        <utility:RareResourceEnumConverter  x:Key="rareEnumConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="120" />
@@ -28,11 +34,53 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <StackPanel>
-                            <TextBlock FontSize="30" Text="Teste" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="30" Text="{Binding chance}" />
                         </StackPanel>
-                        <ToggleButton HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="30" Text="{Binding chance}" />
+                            <ListView ItemsSource="{Binding Path=minMaxResources}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                                            <TextBlock FontSize="15" Text="{Binding Path=Key}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Min Amount: "/>
+                                                <TextBlock FontSize="15" Opacity="0.3" Text="{Binding Path=Value.minAmount}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Max Amount: "/>
+                                                <TextBlock FontSize="15" Opacity="0.3" Text="{Binding Path=Value.maxAmount}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <ListView ItemsSource="{Binding Path=minMaxRareResources}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                                            <TextBlock FontSize="15" Text="{Binding Path=Key}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Min Amount: "/>
+                                                <TextBlock FontSize="15" Opacity="0.3" Text="{Binding Path=Value.minAmount}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Max Amount: "/>
+                                                <TextBlock FontSize="15" Opacity="0.3" Text="{Binding Path=Value.maxAmount}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Margin="0,5" HorizontalAlignment="Right" VerticalAlignment="Center" Click="EditButton_Click">
+                            <materialDesign:PackIcon Kind="EditOutline" />
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -25,7 +25,7 @@
         </Grid.RowDefinitions>
         <materialDesign:ColorZone Mode="PrimaryMid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock Style="{DynamicResource MaterialDesignHeadlineTextBlock}" Margin="15" VerticalAlignment="Bottom" FontSize="30">New Asteroid</TextBlock>
+                <TextBlock Style="{DynamicResource MaterialDesignHeadlineTextBlock}" Margin="15" VerticalAlignment="Bottom" FontSize="30" Text="New Asteroid" Name="TextBlockTitle" />
             </Grid>
         </materialDesign:ColorZone>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20">

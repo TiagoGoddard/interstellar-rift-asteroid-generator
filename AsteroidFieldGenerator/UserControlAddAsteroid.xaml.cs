@@ -30,11 +30,34 @@ namespace AsteroidFieldGenerator
         private ObservableDictionary<ResourceType.RareResource, AsteroidResource> rareAsteroidsList;
         private ObservableDictionary<ResourceType.CommonResource, AsteroidResource> commonAsteroidsList;
         private Asteroid asteroid { get; set; }
+        private Asteroid originalAsteroid { get; set; }
 
+        public bool isEditing { get; set; }
         public bool isRare { get; set; }
         public ResourceType.Type Type { get; set; }
         public String TypeName { get; set; }
 
+        private readonly DelegateCommand _editAsteroidCommand;
+        public ICommand EditAsteroidCommand => _editAsteroidCommand;
+
+        private static UserControlAddAsteroid _instance;
+
+        public static UserControlAddAsteroid GetInstance()
+        {
+            return _instance;
+        }
+
+        public UserControlAddAsteroid()
+        {
+            _instance = this;
+
+            InitializeComponent();
+            this.DataContext = this;
+
+            _editAsteroidCommand = new DelegateCommand(OnEditAsteroid, CanEditAsteroid);
+
+            NewAsteroid();
+        }
         public void ToogleResourceType(bool doing)
         {
             isRare = doing;
@@ -82,22 +105,63 @@ namespace AsteroidFieldGenerator
             commonAsteroidsList = new ObservableDictionary<ResourceType.CommonResource, AsteroidResource>();
             rareAsteroidsList = new ObservableDictionary<ResourceType.RareResource, AsteroidResource>();
 
+            asteroid = new Asteroid();
+
             ResourceComboBox.SelectedItem = null;
             MinAmountTextBox.Text = null;
             MaxAmountTextBox.Text = null;
+            TextBlockTitle.Text = "New Asteroid";
             ChanceTextBox.Text = null;
 
-            asteroid = new Asteroid();
+            isEditing = false;
+            originalAsteroid = null;
 
             UpdateResourceList();
         }
 
-        public UserControlAddAsteroid()
+        private void OnEditAsteroid(object commandParameter)
         {
-            InitializeComponent();
-            this.DataContext = this;
+            asteroid = (Asteroid) commandParameter;
+            originalAsteroid = (Asteroid)commandParameter;
 
-            NewAsteroid();
+            foreach (KeyValuePair<string, AsteroidResource> commonEntry in asteroid.minMaxResources)
+            {
+                ResourceType.CommonResource res = (ResourceType.CommonResource)System.Enum.Parse(typeof(ResourceType.CommonResource), commonEntry.Key);
+                if (commonAsteroidsList.ContainsKey(res))
+                {
+                    commonAsteroidsList[res] = commonEntry.Value;
+                }
+                else
+                {
+                    commonAsteroidsList.Add(res, commonEntry.Value);
+                }
+            }
+            foreach (KeyValuePair<string, AsteroidResource> rareEntry in asteroid.minMaxRareResources)
+            {
+                ResourceType.RareResource res = (ResourceType.RareResource)System.Enum.Parse(typeof(ResourceType.RareResource), rareEntry.Key);
+                if (rareAsteroidsList.ContainsKey(res))
+                {
+                    rareAsteroidsList[res] = rareEntry.Value;
+                }
+                else
+                {
+                    rareAsteroidsList.Add(res, rareEntry.Value);
+                }
+            }
+
+            TextBlockTitle.Text = "Edit Asteroid";
+            ResourceComboBox.SelectedItem = null;
+            MinAmountTextBox.Text = null;
+            MaxAmountTextBox.Text = null;
+            ChanceTextBox.Text = asteroid.chance.ToString();
+
+            isEditing = true;
+
+            _editAsteroidCommand.InvokeCanExecuteChanged();
+        }
+        private bool CanEditAsteroid(object commandParameter)
+        {
+            return true;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -112,7 +176,6 @@ namespace AsteroidFieldGenerator
             ToogleResourceType((bool)(sender as ToggleButton).IsChecked);
         }
 
-
         private void DeleteCommonButton_Click(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
@@ -121,7 +184,6 @@ namespace AsteroidFieldGenerator
                 commonAsteroidsList.Remove((ResourceType.CommonResource) c);
             }
         }
-
 
         private void DeleteRareButton_Click(object sender, RoutedEventArgs e)
         {
@@ -201,7 +263,7 @@ namespace AsteroidFieldGenerator
                     if (ChanceTextBox.Text == null || ChanceTextBox.Text == "") { 
                         asteroid.chance = 0;
                     } else { 
-                        asteroid.chance = double.Parse(ChanceTextBox.Text);
+                        asteroid.chance = decimal.Parse(ChanceTextBox.Text);
                     }
 
                     foreach (KeyValuePair<ResourceType.CommonResource, AsteroidResource> commonEntry in commonAsteroidsList)
@@ -227,7 +289,13 @@ namespace AsteroidFieldGenerator
                     if (asteroid.chance > 0) { 
                         if(asteroid.minMaxRareResources.Count > 0 || asteroid.minMaxResources.Count > 0)
                         {
-                            mainViewModel.AddAsteroid(asteroid);
+                            if(isEditing)
+                            {
+                                mainViewModel.UpdateAsteroid(originalAsteroid, asteroid);
+                            } else
+                            {
+                                mainViewModel.AddAsteroid(asteroid);
+                            }
                             Transitioner.MovePreviousCommand.Execute(null, null);
                             NewAsteroid();
                         } else

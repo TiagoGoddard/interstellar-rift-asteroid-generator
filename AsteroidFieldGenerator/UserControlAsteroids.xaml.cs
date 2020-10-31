@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AsteroidFieldGenerator.Models;
+using MaterialDesignThemes.Wpf.Transitions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -19,11 +21,25 @@ namespace AsteroidFieldGenerator
     public partial class UserControlAsteroids : UserControl
     {
         MainViewModel mainViewModel = MainViewModel.GetInstance();
-
+         
         public UserControlAsteroids()
         {
             InitializeComponent();
             DataContext = mainViewModel;
         }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var c = btn.DataContext as Asteroid;
+            if (c != null)
+            {
+                UserControlAddAsteroid userControlAdd = UserControlAddAsteroid.GetInstance();
+                userControlAdd.EditAsteroidCommand.Execute(c);
+                Transitioner.MoveNextCommand.Execute(null, null);
+            }
+        }
     }
+
+
 }

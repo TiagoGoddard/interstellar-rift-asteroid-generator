@@ -38,6 +38,8 @@ namespace AsteroidFieldGenerator
         private string _filePath;
         private string _fileContent;
         private bool _fileEdited;
+
+        private Asteroid _asteroidResource;
         public string FilePath
         {
             get => _filePath;
@@ -69,7 +71,6 @@ namespace AsteroidFieldGenerator
 
         private readonly DelegateCommand _newFileCommand;
         public ICommand NewFileCommand => _newFileCommand;
-
         private MainViewModel()
         {
             _openFileCommand = new DelegateCommand(OnOpenFile, CanOpenFile);
@@ -99,7 +100,7 @@ namespace AsteroidFieldGenerator
 
                 try
                 {
-                    Asteroids = JsonSerializer.Deserialize<ObservableCollection<Asteroid>>(FileContent);
+                    Asteroids = new ObservableCollection<Asteroid>(JsonSerializer.Deserialize<List<Asteroid>>(FileContent));
                     FileEdited = false;
                 }
                 catch (Exception ex)
@@ -154,13 +155,13 @@ namespace AsteroidFieldGenerator
         }
         public void saveFile()
         {
-            if (String.Equals(FilePath, string.Empty))
+            if (FilePath == null || String.Equals(FilePath, string.Empty))
             {
                 saveAsFile();
             }
             else
             {
-                FileContent = JsonSerializer.Serialize<ObservableCollection<Asteroid>>(Asteroids);
+                FileContent = JsonSerializer.Serialize(new List<Asteroid>(Asteroids));
                 File.WriteAllText(FilePath, FileContent);
                 FileEdited = false;
             }
@@ -186,16 +187,18 @@ namespace AsteroidFieldGenerator
             return true;
         }
 
-        public void RemoveAsteroid(int position)
+        public void RemoveAsteroid(Asteroid asteroid)
         {
             FileEdited = true;
-            Asteroids.RemoveAt(position);
+            Asteroids.Remove(asteroid);
         }
 
-        public void UpdateAsteroid(Asteroid asteroid, int position)
+        public void UpdateAsteroid(Asteroid oldAsteroid, Asteroid newAsteroid)
         {
             FileEdited = true;
-            Asteroids[position] = asteroid;
+            int index = Asteroids.IndexOf(oldAsteroid);
+            Asteroids.Remove(oldAsteroid);
+            Asteroids.Insert(index, newAsteroid);
         }
 
         public void AddAsteroid(Asteroid asteroid)
