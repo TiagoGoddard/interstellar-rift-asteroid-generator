@@ -39,6 +39,15 @@ namespace AsteroidFieldGenerator
                 Transitioner.MoveNextCommand.Execute(null, null);
             }
         }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var c = btn.DataContext as Asteroid;
+            if (c != null)
+            {
+                mainViewModel.RemoveAsteroid(c);
+            }
+        }
     }
 
 
